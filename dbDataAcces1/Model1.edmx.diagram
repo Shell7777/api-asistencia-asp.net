@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1ccb0c601edc44e78741ff55dd865ff5" Name="Diagram1" ZoomLevel="131">
+        <EntityTypeShape EntityType="testdbModel.Category" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="testdbModel.Conference" Width="1.5" PointX="7.5" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="testdbModel.detaillsponenteconferency" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="testdbModel.Invitation" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="testdbModel.Personal" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="testdbModel.Ponente" Width="1.5" PointX="7.5" PointY="5.5" IsExpanded="true" />
+        <AssociationConnector Association="testdbModel.FK_Personal_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="testdbModel.FK_Conference_detaillsponenteconferency" ManuallyRouted="false" />
+        <AssociationConnector Association="testdbModel.FK_Conference_Invitation" ManuallyRouted="false" />
+        <AssociationConnector Association="testdbModel.FK_Ponente_detaillsponenteconferency" ManuallyRouted="false" />
+        <AssociationConnector Association="testdbModel.FK_Invitation_Personal" ManuallyRouted="false" />
+        <AssociationConnector Association="testdbModel.FK_detaillsponenteconferency_Conference" />
+        <AssociationConnector Association="testdbModel.FK_Invitation_Conference" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="testdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lugar" Type="nvarchar" MaxLength="150" />
+          <Property Name="fecha" Type="date" />
+          <Property Name="aforo" Type="int" />
+          <Property Name="hour_start" Type="int" />
+          <Property Name="hour_end" Type="int" />
+          <Property Name="hidden" Type="bit" />
+          <Property Name="description" Type="text" />
+          <Property Name="name" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="detaillsponenteconferency">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idconferency" Type="int" />
+          <Property Name="idPonente" Type="int" />
+          <Property Name="asistencia" Type="bit" />
+        </EntityType>
+        <EntityType Name="Invitation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha_confirmation" Type="date" />
+          <Property Name="fecha_invitacion" Type="date" />
+          <Property Name="idpersonal" Type="int" />
+          <Property Name="idconferency" Type="int" />
+          <Property Name="asistencia" Type="bit" />
+        </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" />
+          <Property Name="apellido" Type="nvarchar" MaxLength="150" />
+          <Property Name="edad" Type="int" />
+          <Property Name="username" Type="nvarchar" MaxLength="150" />
+          <Property Name="password" Type="text" />
+          <Property Name="genero" Type="nvarchar" MaxLength="150" />
+          <Property Name="idcategory" Type="int" />
+          <Property Name="hidden" Type="bit" />
+        </EntityType>
+        <EntityType Name="Ponente">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="150" />
+          <Property Name="descripcion" Type="text" />
+        </EntityType>
+        <Association Name="FK_Conference_detaillsponenteconferency">
+          <End Role="detaillsponenteconferency" Type="Self.detaillsponenteconferency" Multiplicity="1" />
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="detaillsponenteconferency">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Conference">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conference_Invitation">
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="1" />
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invitation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Conference">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="idpersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personal_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="idcategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ponente_detaillsponenteconferency">
+          <End Role="detaillsponenteconferency" Type="Self.detaillsponenteconferency" Multiplicity="1" />
+          <End Role="Ponente" Type="Self.Ponente" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="detaillsponenteconferency">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ponente">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testdbModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Conference" EntityType="Self.Conference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="detaillsponenteconferency" EntityType="Self.detaillsponenteconferency" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invitation" EntityType="Self.Invitation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personal" EntityType="Self.Personal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ponente" EntityType="Self.Ponente" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Conference_detaillsponenteconferency" Association="Self.FK_Conference_detaillsponenteconferency">
+            <End Role="detaillsponenteconferency" EntitySet="detaillsponenteconferency" />
+            <End Role="Conference" EntitySet="Conference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conference_Invitation" Association="Self.FK_Conference_Invitation">
+            <End Role="Invitation" EntitySet="Invitation" />
+            <End Role="Conference" EntitySet="Conference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_Personal" Association="Self.FK_Invitation_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Invitation" EntitySet="Invitation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personal_Category" Association="Self.FK_Personal_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ponente_detaillsponenteconferency" Association="Self.FK_Ponente_detaillsponenteconferency">
+            <End Role="detaillsponenteconferency" EntitySet="detaillsponenteconferency" />
+            <End Role="Ponente" EntitySet="Ponente" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="testdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Personal_Category" FromRole="Category" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="Conference">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lugar" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="fecha" Type="DateTime" Precision="0" />
+          <Property Name="aforo" Type="Int32" />
+          <Property Name="hour_start" Type="Int32" />
+          <Property Name="hour_end" Type="Int32" />
+          <NavigationProperty Name="detaillsponenteconferency" Relationship="Self.FK_Conference_detaillsponenteconferency" FromRole="Conference" ToRole="detaillsponenteconferency" />
+          <NavigationProperty Name="Invitation" Relationship="Self.FK_Conference_Invitation" FromRole="Conference" ToRole="Invitation" />
+          <Property Name="hidden" Type="Boolean" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="detaillsponenteconferency">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idconferency" Type="Int32" />
+          <Property Name="idPonente" Type="Int32" />
+          <Property Name="asistencia" Type="Boolean" />
+          <NavigationProperty Name="Conference" Relationship="Self.FK_Conference_detaillsponenteconferency" FromRole="detaillsponenteconferency" ToRole="Conference" />
+          <NavigationProperty Name="Ponente" Relationship="Self.FK_Ponente_detaillsponenteconferency" FromRole="detaillsponenteconferency" ToRole="Ponente" />
+        </EntityType>
+        <EntityType Name="Invitation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha_confirmation" Type="DateTime" Precision="0" />
+          <Property Name="fecha_invitacion" Type="DateTime" Precision="0" />
+          <Property Name="idpersonal" Type="Int32" />
+          <Property Name="idconferency" Type="Int32" />
+          <Property Name="asistencia" Type="Boolean" />
+          <NavigationProperty Name="Conference" Relationship="Self.FK_Conference_Invitation" FromRole="Invitation" ToRole="Conference" />
+          <NavigationProperty Name="Personal" Relationship="Self.FK_Invitation_Personal" FromRole="Invitation" ToRole="Personal" />
+        </EntityType>
+        <EntityType Name="Personal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="apellido" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="edad" Type="Int32" />
+          <Property Name="username" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="genero" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="idcategory" Type="Int32" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Personal_Category" FromRole="Personal" ToRole="Category" />
+          <NavigationProperty Name="Invitation" Relationship="Self.FK_Invitation_Personal" FromRole="Personal" ToRole="Invitation" />
+          <Property Name="hidden" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Ponente">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="detaillsponenteconferency" Relationship="Self.FK_Ponente_detaillsponenteconferency" FromRole="Ponente" ToRole="detaillsponenteconferency" />
+        </EntityType>
+        <Association Name="FK_Personal_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Personal" Type="Self.Personal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Personal">
+              <PropertyRef Name="idcategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conference_detaillsponenteconferency">
+          <End Role="detaillsponenteconferency" Type="Self.detaillsponenteconferency" Multiplicity="1" />
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="detaillsponenteconferency">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Conference">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Conference_Invitation">
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="1" />
+          <End Role="Conference" Type="Self.Conference" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Invitation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Conference">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ponente_detaillsponenteconferency">
+          <End Role="detaillsponenteconferency" Type="Self.detaillsponenteconferency" Multiplicity="1" />
+          <End Role="Ponente" Type="Self.Ponente" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="detaillsponenteconferency">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ponente">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invitation_Personal">
+          <End Role="Personal" Type="Self.Personal" Multiplicity="0..1" />
+          <End Role="Invitation" Type="Self.Invitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Personal">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Invitation">
+              <PropertyRef Name="idpersonal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Category" EntityType="Self.Category" />
+          <EntitySet Name="Conference" EntityType="Self.Conference" />
+          <EntitySet Name="detaillsponenteconferency" EntityType="Self.detaillsponenteconferency" />
+          <EntitySet Name="Invitation" EntityType="Self.Invitation" />
+          <EntitySet Name="Personal" EntityType="Self.Personal" />
+          <EntitySet Name="Ponente" EntityType="Self.Ponente" />
+          <AssociationSet Name="FK_Personal_Category" Association="Self.FK_Personal_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Personal" EntitySet="Personal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conference_detaillsponenteconferency" Association="Self.FK_Conference_detaillsponenteconferency">
+            <End Role="detaillsponenteconferency" EntitySet="detaillsponenteconferency" />
+            <End Role="Conference" EntitySet="Conference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Conference_Invitation" Association="Self.FK_Conference_Invitation">
+            <End Role="Invitation" EntitySet="Invitation" />
+            <End Role="Conference" EntitySet="Conference" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ponente_detaillsponenteconferency" Association="Self.FK_Ponente_detaillsponenteconferency">
+            <End Role="detaillsponenteconferency" EntitySet="detaillsponenteconferency" />
+            <End Role="Ponente" EntitySet="Ponente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invitation_Personal" Association="Self.FK_Invitation_Personal">
+            <End Role="Personal" EntitySet="Personal" />
+            <End Role="Invitation" EntitySet="Invitation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="testdbModelStoreContainer" CdmEntityContainer="testdbEntities">
+          <EntitySetMapping Name="Category">
+            <EntityTypeMapping TypeName="testdbModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Conference">
+            <EntityTypeMapping TypeName="testdbModel.Conference">
+              <MappingFragment StoreEntitySet="Conference">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="hidden" ColumnName="hidden" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="lugar" ColumnName="lugar" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="aforo" ColumnName="aforo" />
+                <ScalarProperty Name="hour_start" ColumnName="hour_start" />
+                <ScalarProperty Name="hour_end" ColumnName="hour_end" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="detaillsponenteconferency">
+            <EntityTypeMapping TypeName="testdbModel.detaillsponenteconferency">
+              <MappingFragment StoreEntitySet="detaillsponenteconferency">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idconferency" ColumnName="idconferency" />
+                <ScalarProperty Name="idPonente" ColumnName="idPonente" />
+                <ScalarProperty Name="asistencia" ColumnName="asistencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invitation">
+            <EntityTypeMapping TypeName="testdbModel.Invitation">
+              <MappingFragment StoreEntitySet="Invitation">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fecha_confirmation" ColumnName="fecha_confirmation" />
+                <ScalarProperty Name="fecha_invitacion" ColumnName="fecha_invitacion" />
+                <ScalarProperty Name="idpersonal" ColumnName="idpersonal" />
+                <ScalarProperty Name="idconferency" ColumnName="idconferency" />
+                <ScalarProperty Name="asistencia" ColumnName="asistencia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personal">
+            <EntityTypeMapping TypeName="testdbModel.Personal">
+              <MappingFragment StoreEntitySet="Personal">
+                <ScalarProperty Name="hidden" ColumnName="hidden" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="edad" ColumnName="edad" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="genero" ColumnName="genero" />
+                <ScalarProperty Name="idcategory" ColumnName="idcategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ponente">
+            <EntityTypeMapping TypeName="testdbModel.Ponente">
+              <MappingFragment StoreEntitySet="Ponente">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
