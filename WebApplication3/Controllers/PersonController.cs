@@ -38,7 +38,7 @@ namespace WebApplication3.Controllers
         [HttpGet]
         public IHttpActionResult personalNotInvited(int idconfereny)
         {
-            /*var personas = testdb.Personal.Where(a=>a.hidden==false).ToList() ;
+            var personas = testdb.Personal.Where(a=>a.hidden==false).ToList() ;
             var personas2 = testdb.Personal.Where(a => a.hidden == false).ToList();
             foreach (Personal p in personas)
             {
@@ -50,9 +50,9 @@ namespace WebApplication3.Controllers
                     }   
                 }
             }
-            return Ok (personas2);*/
+            return Ok (personas2);
             //validacion
-            return Ok(testdb.Invitation.Where(a => a.Conference.id != idconfereny).ToList());
+           // return Ok(testdb.Invitation.Where(a => a.Conference.id != idconfereny).ToList());
         }
 
 

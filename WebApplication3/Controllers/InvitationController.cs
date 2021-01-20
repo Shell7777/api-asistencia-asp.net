@@ -49,14 +49,18 @@ namespace WebApplication3.Controllers
             return Ok(testdb.Invitation.Where(a => a.idconferency == id ).ToList());
 
         }
-        public Invitation Put(int?  conferenceiD, int idpersonal )
+        [Route("api/invitation/confirmInvitation/{invitacion}")]
+        [HttpPost]
+        public IHttpActionResult confirmInvitation(Invitation invitation)
         {
             //validacion
             // comprobar que el tio fue a la conferencia
 
-            var invitacion = testdb.Invitation.Where(a => a.idpersonal==idpersonal && a.idconferency==conferenceiD ).FirstOrDefault();
+            var invitacion = testdb.Invitation.Where(a => a.idpersonal==invitation.idpersonal && a.idconferency== invitation.idconferency).FirstOrDefault();
             invitacion.asistencia = true;
-            return invitacion;
+            testdb.SaveChanges();
+
+            return Ok(invitacion);
         }
 
     }
